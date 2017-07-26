@@ -177,5 +177,21 @@ export class BlocksComponent implements AfterViewInit {
     c_context.fillStyle = "#fff"
     c_context.fillRect(0, 0, canvas.width, canvas.height)
     container_tree.paint(c_context)
+
+    const elemLeft = canvas.offsetLeft
+    const elemTop = canvas.offsetTop
+
+    canvas.addEventListener('click', (event) => {
+        const x = event.pageX - elemLeft
+        const y = event.pageY - elemTop
+
+        container_tree.getLeafs().forEach((element) => {
+            if (y > element.y && y < element.y + element.h
+                && x > element.x && x < element.x + element.w) {
+                alert('size of element is ' + element.h * element.w)
+            }
+        })
+    }, false)
+
   }
 }
