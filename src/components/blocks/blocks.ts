@@ -83,9 +83,26 @@ export class BlocksComponent implements AfterViewInit {
         console.log('c', this.center)
       }
 
+      colors = {
+        1: '#F60201',
+        2: '#1F7FC9',
+        3: '#FDED01'
+      }
+
+      getColor () {
+        const color = random(1, 10)
+        if (color < 4) {
+          return this.colors[color]
+        } else {
+          return '#fff'
+        }
+      }
+
       paint (container) {
         container.strokeStyle = "#000"
-        container.lineWidth   = 1
+        container.lineWidth   = random(1, 3)
+        container.fillStyle = this.getColor()
+        container.fillRect(this.x, this.y, this.w, this.h)
         container.strokeRect(
           this.x, this.y,   // SQUARE era para alinear las lineas a una tilegrid, no es necesario para esto
           this.w, this.h    // SQUARE era para alinear las lineas a una tilegrid, no es necesario para esto
