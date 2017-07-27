@@ -1,4 +1,6 @@
 
+import { Container } from './container'
+
 export class Tree {
   constructor (leaf) {
     this.leaf = leaf
@@ -8,7 +10,7 @@ export class Tree {
   lchild
   rchild
 
-  getLeafs () {
+  getLeafs (): Container[] {
     if (this.lchild === undefined && this.rchild === undefined)
       return [this.leaf]
     else

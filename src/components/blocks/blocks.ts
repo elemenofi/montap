@@ -9,6 +9,8 @@ import { Container } from './container'
 import { random } from './random'
 import { BSP } from './bsp'
 
+import { ScoreService } from '../../services/score'
+
 @Component({
   selector: 'component-blocks',
   templateUrl: 'blocks.html'
@@ -16,17 +18,18 @@ import { BSP } from './bsp'
 
 export class BlocksComponent implements AfterViewInit {
   constructor(
+    private scoreService: ScoreService
   ) {}
 
   bsp = new BSP()
-  sizes: Container[] = []
-  largest: Container
+  sizes: number[] = []
+  largest: number
   container_tree: Tree
   c_context: CanvasRenderingContext2D
 
   ngAfterViewInit () {
-    const canvas: any      = document.getElementById('viewport')
-    this.c_context         = canvas.getContext('2d')
+    const canvas: any = document.getElementById('viewport')
+    this.c_context = canvas.getContext('2d')
 
     const main_container = new Container(0, 0, canvas.width, canvas.height)
     this.container_tree = this.bsp.splitContainer(main_container, this.bsp.N_ITERATIONS)
@@ -60,25 +63,26 @@ export class BlocksComponent implements AfterViewInit {
         x > element.x &&
         x < element.x + element.w
       ) {
-        if (element.active) return
-        if (element.size < this.largest) {
-          // score -1
-        } else {
-          // Set container to active and paint with Mondrian color
-          element.active = true
+        if (!element.active) {
+          if (element.size < this.largest) {
+            this.scoreService.score--;
+          } else {
+            // Set container to active and paint with Mondrian color
+            element.active = true
 
-          this.c_context.fillStyle = element.activeColor
-          this.c_context.fillRect(element.x, element.y, element.w, element.h)
+            this.c_context.fillStyle = element.activeColor
+            this.c_context.fillRect(element.x, element.y, element.w, element.h)
 
-          this.c_context.lineWidth = element.lineWidth
-          this.c_context.strokeRect(element.x, element.y, element.w, element.h)
+            this.c_context.lineWidth = element.lineWidth
+            this.c_context.strokeRect(element.x, element.y, element.w, element.h)
 
-          // Reset largest
-          this.sizes.splice(this.sizes.indexOf(this.largest), 1)
-          this.largest = Math.max.apply(null, this.sizes)
+            // Reset largest
+            this.sizes.splice(this.sizes.indexOf(this.largest), 1)
+            this.largest = Math.max.apply(null, this.sizes)
 
-          if (this.sizes.length === 0) {
-            // score +1
+            if (this.sizes.length === 0) {
+              this.scoreService.score++;
+            }
           }
         }
       }

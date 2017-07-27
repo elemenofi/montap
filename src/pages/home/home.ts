@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { GamePage } from './../game/game';
+import { Component, OnInit } from '@angular/core'
+import { NavController } from 'ionic-angular'
+import { GamePage } from './../game/game'
 
 @Component({
   selector: 'page-home',

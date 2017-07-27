@@ -7,15 +7,16 @@ export class Container {
     this.y = y
     this.w = w
     this.h = h
+    this.size = w * h
   }
 
   x
   y
   w
   h
+  size
 
   active = false
-  size = this.w * this.h
   activeColor = this.getColor()
   lineWidth = random(2,4)
 

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core'
 
 @Injectable()
 
-export class GameService {
-  constructor () {}
-  win () {}
+export class ScoreService {
+  score = 0
 }
