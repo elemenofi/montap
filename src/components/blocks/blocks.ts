@@ -107,10 +107,6 @@ export class BlocksComponent implements AfterViewInit {
           this.w, this.h
         )
       }
-      clicked (container) {
-        container.fillStyle = this.getColor()
-        container.fillRect(this.x, this.y, this.w, this.h)
-      }
     }
 
     const split_container = (container, iter) => {
