@@ -43,8 +43,6 @@ export class BlocksComponent implements AfterViewInit {
     this.c_context.fillStyle = "#fff"
     this.c_context.fillRect(0, 0, canvas.width, canvas.height)
     this.container_tree.paint(this.c_context)
-
-    canvas.addEventListener('click', event => this.handleTap(event))
   }
 
   handleTap (event) {
@@ -65,6 +63,7 @@ export class BlocksComponent implements AfterViewInit {
       ) {
         if (!element.active) {
           if (element.size < this.largest) {
+            debugger
             this.scoreService.score--;
           } else {
             // Set container to active and paint with Mondrian color
@@ -80,8 +79,11 @@ export class BlocksComponent implements AfterViewInit {
             this.sizes.splice(this.sizes.indexOf(this.largest), 1)
             this.largest = Math.max.apply(null, this.sizes)
 
+            this.scoreService.score++;
+
             if (this.sizes.length === 0) {
-              this.scoreService.score++;
+              this.bsp.N_ITERATIONS++;
+              this.ngAfterViewInit()
             }
           }
         }

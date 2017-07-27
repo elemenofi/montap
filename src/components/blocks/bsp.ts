@@ -7,7 +7,7 @@ export class BSP {
   DISCARD_BY_RATIO  = true
   H_RATIO           = 0.25
   W_RATIO           = 0.25
-  N_ITERATIONS      = 4
+  N_ITERATIONS      = 1
 
   splitContainer (container, iter) {
     const root = new Tree(container)
