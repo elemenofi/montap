@@ -6,12 +6,11 @@ import { GamePage } from './../game/game'
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
 export class HomePage implements OnInit {
   constructor(public navCtrl: NavController) {}
 
-  ngOnInit () {
-    this.navCtrl.push(GamePage)
-  }
+  ngOnInit () {}
 
   start () {
     this.navCtrl.push(GamePage)

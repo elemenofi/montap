@@ -1,7 +1,7 @@
 import {
   Component,
   AfterViewInit,
-} from '@angular/core';
+} from '@angular/core'
 
 import { Tree } from './tree'
 import { Point } from './point'
@@ -11,6 +11,10 @@ import { BSP } from './bsp'
 
 import { ScoreService } from '../../services/score'
 
+import { HomePage } from "../../pages/home/home"
+
+import { NavController } from 'ionic-angular'
+
 @Component({
   selector: 'component-blocks',
   templateUrl: 'blocks.html'
@@ -18,6 +22,7 @@ import { ScoreService } from '../../services/score'
 
 export class BlocksComponent implements AfterViewInit {
   constructor(
+    private navCtrl: NavController,
     private scoreService: ScoreService
   ) {}
 
@@ -63,8 +68,8 @@ export class BlocksComponent implements AfterViewInit {
       ) {
         if (!element.active) {
           if (element.size < this.largest) {
-            debugger
-            this.scoreService.score--;
+            this.scoreService.lives--
+            if (this.scoreService.lives < 0) this.navCtrl.push(HomePage)
           } else {
             // Set container to active and paint with Mondrian color
             element.active = true
@@ -79,10 +84,11 @@ export class BlocksComponent implements AfterViewInit {
             this.sizes.splice(this.sizes.indexOf(this.largest), 1)
             this.largest = Math.max.apply(null, this.sizes)
 
-            this.scoreService.score++;
+            this.scoreService.lives++
 
             if (this.sizes.length === 0) {
-              this.bsp.N_ITERATIONS++;
+              this.scoreService.score++
+              this.bsp.N_ITERATIONS++
               this.ngAfterViewInit()
             }
           }
