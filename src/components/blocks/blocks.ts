@@ -66,23 +66,22 @@ export class BlocksComponent implements AfterViewInit {
       y
       w
       h
-      center: Point
+      active
+      activeColor
+      lineWidth
+      size
       constructor (x, y, w, h) {
         this.x = x
         this.y = y
         this.w = w
         this.h = h
-        this.center = new Point(
-          this.x + (this.w/2),
-          this.y + (this.h/2)
-        )
-        console.log('x', this.x)
-        console.log('y', this.y)
-        console.log('w', this.w)
-        console.log('h', this.h)
-        console.log('c', this.center)
+        this.active = false
+        this.activeColor = this.getColor()
+        this.lineWidth = random(1,3)
+        this.size = w * h
       }
 
+      // No se me escapo q pusiste los tonos de Sweden :D
       colors = {
         1: '#F60201',
         2: '#1F7FC9',
@@ -100,13 +99,17 @@ export class BlocksComponent implements AfterViewInit {
 
       paint (container) {
         container.strokeStyle = "#000"
-        container.lineWidth   = random(1, 3)
-        container.fillStyle = this.getColor()
+        container.lineWidth   = this.lineWidth
+        container.fillStyle = "#ddd"
         container.fillRect(this.x, this.y, this.w, this.h)
         container.strokeRect(
-          this.x, this.y,   // SQUARE era para alinear las lineas a una tilegrid, no es necesario para esto
-          this.w, this.h    // SQUARE era para alinear las lineas a una tilegrid, no es necesario para esto
+          this.x, this.y,
+          this.w, this.h
         )
+      }
+      clicked (container) {
+        container.fillStyle = this.getColor()
+        container.fillRect(this.x, this.y, this.w, this.h)
       }
     }
 
@@ -163,8 +166,7 @@ export class BlocksComponent implements AfterViewInit {
     }
 
     const canvas: any  = document.getElementById('viewport')
-    console.log(canvas.width) // esto no devolvia bien pq canvas lo necesitaba en el tag html en vez de css, por eso deformaba
-    const N_ITERATIONS = 3
+    const N_ITERATIONS = 2
     const DISCARD_BY_RATIO = true
     const H_RATIO          = 0.25
     const W_RATIO          = 0.25
@@ -174,21 +176,52 @@ export class BlocksComponent implements AfterViewInit {
     const main_container = new Container(0, 0, canvas.width, canvas.height)
     const container_tree = split_container(main_container, N_ITERATIONS)
 
+    // Size helpers
+    // Esto es lo mas simple y parece q anda ok...
+    let sizes = []
+    container_tree.getLeafs().forEach((element) => {
+      sizes.push(element.size)
+    })
+    let largest = Math.max.apply(null, sizes)
+
     c_context.fillStyle = "#fff"
     c_context.fillRect(0, 0, canvas.width, canvas.height)
     container_tree.paint(c_context)
 
-    const elemLeft = canvas.offsetLeft
-    const elemTop = canvas.offsetTop
-
     canvas.addEventListener('click', (event) => {
-        const x = event.pageX - elemLeft
-        const y = event.pageY - elemTop
+
+        // layerX te da lo q intentabas hacer con pageX + el offset
+        const x = event.layerX
+        const y = event.layerY
+
+        console.log('Click: x', x, 'y', y)
 
         container_tree.getLeafs().forEach((element) => {
-            if (y > element.y && y < element.y + element.h
-                && x > element.x && x < element.x + element.w) {
-                alert('size of element is ' + element.h * element.w)
+            if (y > element.y &&
+                y < element.y + element.h &&
+                x > element.x &&
+                x < element.x + element.w) {
+                  if (!element.active) {
+                    if (element.size < largest) {
+                      alert("You lose")
+                    } else {
+                      // Set container to active and paint with Mondrian color
+                      element.active = true
+                      c_context.fillStyle = element.activeColor
+                      c_context.fillRect(element.x, element.y, element.w, element.h)
+                      c_context.lineWidth = element.lineWidth
+                      c_context.strokeRect(element.x, element.y, element.w, element.h)
+
+                      // Reset largest
+                      sizes.splice(sizes.indexOf(largest), 1)
+                      largest = Math.max.apply(null, sizes)
+
+                      if (sizes.length === 0) {
+                        alert("You win")
+                      }
+                    }
+
+                  }
             }
         })
     }, false)
