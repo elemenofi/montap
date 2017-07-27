@@ -77,7 +77,7 @@ export class BlocksComponent implements AfterViewInit {
         this.h = h
         this.active = false
         this.activeColor = this.getColor()
-        this.lineWidth = random(1,3)
+        this.lineWidth = random(2,4)
         this.size = w * h
       }
 
@@ -162,7 +162,7 @@ export class BlocksComponent implements AfterViewInit {
     }
 
     const canvas: any  = document.getElementById('viewport')
-    const N_ITERATIONS = 2
+    const N_ITERATIONS = 4
     const DISCARD_BY_RATIO = true
     const H_RATIO          = 0.25
     const W_RATIO          = 0.25
