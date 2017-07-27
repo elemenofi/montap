@@ -5,4 +5,5 @@ import { Injectable } from '@angular/core'
 export class ScoreService {
   lives = 0
   score = 0
+  time = 0
 }

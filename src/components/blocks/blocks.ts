@@ -69,7 +69,10 @@ export class BlocksComponent implements AfterViewInit {
         if (!element.active) {
           if (element.size < this.largest) {
             this.scoreService.lives--
-            if (this.scoreService.lives < 0) this.navCtrl.push(HomePage)
+            if (this.scoreService.lives < 0) {
+              alert('Your score was ' + this.scoreService.score / this.scoreService.time)
+              this.navCtrl.setRoot(HomePage)
+            }
           } else {
             // Set container to active and paint with Mondrian color
             element.active = true

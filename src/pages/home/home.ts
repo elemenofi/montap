@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController } from 'ionic-angular'
 import { GamePage } from './../game/game'
+import { ScoreService } from "../../services/score";
 
 @Component({
   selector: 'page-home',
@@ -8,11 +9,16 @@ import { GamePage } from './../game/game'
 })
 
 export class HomePage implements OnInit {
-  constructor(public navCtrl: NavController) {}
+  constructor(
+    private navCtrl: NavController,
+    private scoreService: ScoreService,
+  ) {}
 
   ngOnInit () {}
 
   start () {
-    this.navCtrl.push(GamePage)
+    this.navCtrl.setRoot(GamePage)
+    this.scoreService.score = 0
+    this.scoreService.lives = 0
   }
 }
