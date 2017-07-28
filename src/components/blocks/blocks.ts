@@ -74,6 +74,43 @@ export class BlocksComponent implements AfterViewInit {
     this.c_context.strokeRect(block.x, block.y, block.w, block.h)
   }
 
+  wrongBlockFeedback (block) {
+
+    // Cross Lines settings
+    this.c_context.lineWidth = 10
+    this.c_context.strokeStyle = "#ff0000"
+
+    // Draw Cross
+    this.c_context.beginPath();
+
+    this.c_context.moveTo(block.cx - 10, block.cy - 10);
+    this.c_context.lineTo(block.cx + 10, block.cy + 10);
+
+    this.c_context.moveTo(block.cx + 10, block.cy - 10);
+    this.c_context.lineTo(block.cx - 10, block.cy + 10);
+    this.c_context.stroke();
+
+    // Erase Cross later  (ugh..)
+    setTimeout(function(block, ctx) {
+      return function() {
+        ctx.lineWidth = 12
+        if (block.active) {
+          ctx.strokeStyle = block.activeColor
+        } else {
+          ctx.strokeStyle = "#ddd"
+        }
+        ctx.beginPath();
+
+        ctx.moveTo(block.cx - 12, block.cy - 12);
+        ctx.lineTo(block.cx + 12, block.cy + 12);
+
+        ctx.moveTo(block.cx + 12, block.cy - 12);
+        ctx.lineTo(block.cx - 12, block.cy + 12);
+        ctx.stroke();
+      }
+    }(block, this.c_context), 250)
+  }
+
   handleTap (event) {
     const x = event.layerX
     const y = event.layerY
@@ -92,6 +129,9 @@ export class BlocksComponent implements AfterViewInit {
       ) {
         if (!element.active) {
           if (element.size < this.largest) {
+            // Display visual feedback
+            this.wrongBlockFeedback(element)
+
             // Reduce life
             this.scoreService.lives--
 
