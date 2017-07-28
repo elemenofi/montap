@@ -65,7 +65,7 @@ export class BlocksComponent implements AfterViewInit {
     this.ngAfterViewInit()
   }
 
-  drawActiveSelf (block) {
+  drawActiveBlock (block) {
     this.c_context.fillStyle = block.activeColor
     this.c_context.fillRect(block.x, block.y, block.w, block.h)
 
@@ -142,7 +142,7 @@ export class BlocksComponent implements AfterViewInit {
           } else {
             // Set container to active and paint with Mondrian color
             element.active = true
-            this.drawActiveSelf(element)
+            this.drawActiveBlock(element)
 
             // Reset largest block
             this.sizes.splice(this.sizes.indexOf(this.largest), 1)
