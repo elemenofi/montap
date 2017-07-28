@@ -65,7 +65,7 @@ export class BlocksComponent implements AfterViewInit {
     this.ngAfterViewInit()
   }
 
-  drawSelf (block) {
+  drawActiveSelf (block) {
     this.c_context.fillStyle = block.activeColor
     this.c_context.fillRect(block.x, block.y, block.w, block.h)
 
@@ -93,6 +93,7 @@ export class BlocksComponent implements AfterViewInit {
     // Erase Cross later  (ugh..)
     setTimeout(function(block, ctx) {
       return function() {
+        // Everything a bit bigger because of some weird aliasing..
         ctx.lineWidth = 12
         if (block.active) {
           ctx.strokeStyle = block.activeColor
@@ -114,8 +115,6 @@ export class BlocksComponent implements AfterViewInit {
   handleTap (event) {
     const x = event.layerX
     const y = event.layerY
-
-    console.log('Click: x', x, 'y', y)
 
     this
     .container_tree
@@ -143,15 +142,7 @@ export class BlocksComponent implements AfterViewInit {
           } else {
             // Set container to active and paint with Mondrian color
             element.active = true
-
-            //this.c_context.fillStyle = element.activeColor
-            //this.c_context.fillRect(element.x, element.y, element.w, element.h)
-
-            //this.c_context.lineWidth = element.lineWidth
-            //this.c_context.strokeStyle = "#000"
-            //this.c_context.strokeRect(element.x, element.y, element.w, element.h)
-
-            this.drawSelf(element)
+            this.drawActiveSelf(element)
 
             // Reset largest block
             this.sizes.splice(this.sizes.indexOf(this.largest), 1)
