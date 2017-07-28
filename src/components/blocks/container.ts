@@ -7,6 +7,8 @@ export class Container {
     this.y = y
     this.w = w
     this.h = h
+    this.cx = x + w/2
+    this.cy = y + h/2
     this.size = w * h
   }
 
@@ -14,6 +16,8 @@ export class Container {
   y
   w
   h
+  cx
+  cy
   size
 
   active = false
