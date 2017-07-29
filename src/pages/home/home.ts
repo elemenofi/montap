@@ -14,11 +14,14 @@ export class HomePage implements OnInit {
     private scoreService: ScoreService,
   ) {}
 
-  ngOnInit () {}
+  previousScore: string
+
+  ngOnInit () {
+    this.previousScore = localStorage.getItem('score')
+  }
 
   start () {
     this.navCtrl.setRoot(GamePage)
-    this.scoreService.score = 0
-    this.scoreService.lives = 0
+    this.scoreService.init()
   }
 }
