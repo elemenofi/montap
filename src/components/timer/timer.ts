@@ -1,7 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core'
-import { Observable } from 'rxjs/Rx'
-
-
+import { Observable, Subscription } from 'rxjs/Rx'
 import { ScoreService } from "../../services/score";
 
 @Component({
@@ -11,11 +9,19 @@ import { ScoreService } from "../../services/score";
 
 export class TimerComponent implements AfterViewInit {
   constructor(
-    public scoreService: ScoreService
+    public scoreService: ScoreService,
   ) {}
 
+  timer: Observable<number>
+  sub: Subscription
+
   ngAfterViewInit () {
-    const timer = Observable.timer(1, 1000)
-    timer.subscribe(t => this.scoreService.time = t)
+    this.timer = Observable.timer(1, 1000)
+    this.sub = this.timer.subscribe(t => this.scoreService.time = t)
+  }
+
+  ngOnDestroy () {
+    this.sub.unsubscribe()
+    console.log('Timer Destroyed.')
   }
 }

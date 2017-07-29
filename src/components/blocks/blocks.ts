@@ -4,15 +4,10 @@ import {
 } from '@angular/core'
 
 import { Tree } from './tree'
-//import { Point } from './point'
 import { Container } from './container'
-//import { random } from './random'
 import { BSP } from './bsp'
-
 import { ScoreService } from '../../services/score'
-
 import { HomePage } from "../../pages/home/home"
-
 import { NavController } from 'ionic-angular'
 
 @Component({
@@ -62,7 +57,11 @@ export class BlocksComponent implements AfterViewInit {
     if (this.scoreService.level > 50) { this.bsp.N_ITERATIONS = 5 }
 
     // Change view
-    this.ngAfterViewInit()
+    setTimeout(function(that) {
+      return function () {
+        that.ngAfterViewInit()
+      }
+    }(this), 500)
   }
 
   drawActiveBlock (block) {
@@ -138,8 +137,6 @@ export class BlocksComponent implements AfterViewInit {
             if (this.scoreService.lives < 0) {
               alert('Your score was ' + this.scoreService.score / this.scoreService.time)
               this.navCtrl.setRoot(HomePage)
-
-              // ISSUE: After dying, timer does not die and two timers are now active
             }
           } else {
             // Set container to active and paint with Mondrian color
