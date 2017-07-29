@@ -7,7 +7,7 @@ import { Tree } from './tree'
 import { Container } from './container'
 import { BSP } from './bsp'
 import { ScoreService } from '../../services/score'
-import { HomePage } from "../../pages/home/home"
+import { HomePage } from '../../pages/home/home'
 import { NavController } from 'ionic-angular'
 
 @Component({
@@ -32,7 +32,7 @@ export class BlocksComponent implements AfterViewInit {
     const canvas: any = document.getElementById('viewport')
     this.ctx = canvas.getContext('2d')
 
-    const main_container = new Container(0, 0, canvas.width, canvas.height)
+    const main_container = new Container(0, 0, canvas.width, canvas.height, 2)
     this.container_tree = this.bsp.splitContainer(main_container, this.bsp.N_ITERATIONS)
 
     this.container_tree.getLeafs().forEach((element) => {
@@ -55,8 +55,6 @@ export class BlocksComponent implements AfterViewInit {
     if (this.scoreService.level > 30) { this.bsp.N_ITERATIONS = 4 }
     if (this.scoreService.level > 50) { this.bsp.N_ITERATIONS = 5 }
 
-    // Change view
-    // app
     setTimeout(() => this.ngAfterViewInit(), 500)
   }
 
@@ -70,12 +68,9 @@ export class BlocksComponent implements AfterViewInit {
   }
 
   wrongBlockFeedback (block) {
-
-    // Cross Lines settings
     this.ctx.lineWidth = 10
     this.ctx.strokeStyle = "#ff0000"
 
-    // Draw Cross
     this.ctx.beginPath()
 
     this.ctx.moveTo(block.cx - 10, block.cy - 10)
@@ -85,24 +80,29 @@ export class BlocksComponent implements AfterViewInit {
     this.ctx.lineTo(block.cx - 10, block.cy + 10)
     this.ctx.stroke()
 
-    // Erase Cross later  (ugh..)
-    setTimeout((block, ctx) => {
-        // Everything a bit bigger because of some weird aliasing..
-        ctx.lineWidth = 12
-        if (block.active) {
-          ctx.strokeStyle = block.activeColor
-        } else {
-          ctx.strokeStyle = "#ddd"
-        }
-        ctx.beginPath()
-
-        ctx.moveTo(block.cx - 12, block.cy - 12)
-        ctx.lineTo(block.cx + 12, block.cy + 12)
-
-        ctx.moveTo(block.cx + 12, block.cy - 12)
-        ctx.lineTo(block.cx - 12, block.cy + 12)
-        ctx.stroke()
+    setTimeout(() => {
+      this.removeCross(block)
     }, 250)
+  }
+
+  removeCross (block) {
+    this.ctx.lineWidth = 12
+
+    if (block.active) {
+      this.ctx.strokeStyle = block.activeColor
+    } else {
+      this.ctx.strokeStyle = "#ddd"
+    }
+
+    this.ctx.beginPath()
+
+    this.ctx.moveTo(block.cx - 12, block.cy - 12)
+    this.ctx.lineTo(block.cx + 12, block.cy + 12)
+
+    this.ctx.moveTo(block.cx + 12, block.cy - 12)
+    this.ctx.lineTo(block.cx - 12, block.cy + 12)
+
+    this.ctx.stroke()
   }
 
   handleTap (event) {
@@ -133,7 +133,6 @@ export class BlocksComponent implements AfterViewInit {
               this.navCtrl.setRoot(HomePage)
             }
           } else {
-            // Set container to active and paint with Mondrian color
             element.active = true
             this.drawActiveBlock(element)
 
@@ -146,7 +145,6 @@ export class BlocksComponent implements AfterViewInit {
 
             // Check Level finished
             if (this.sizes.length === 0) {
-
               // Update lives
               if (this.scoreService.level <= 15) {
                 this.scoreService.lives++
@@ -158,7 +156,6 @@ export class BlocksComponent implements AfterViewInit {
 
               // Go to Next Level
               this.goToNextLevel()
-
             }
           }
         }
