@@ -10,19 +10,23 @@ export class Container {
     this.cx = x + w/2
     this.cy = y + h/2
     this.size = w * h
+    this.strokes = [2,4,6]
+    this.lineWidth = this.strokes[Math.floor(Math.random() * this.strokes.length)];
+    this.activeColor = this.getColor()
+    this.active = false
   }
 
-  x
-  y
-  w
-  h
-  cx
-  cy
-  size
-
-  active = false
-  activeColor = this.getColor()
-  lineWidth = random(2,5)
+  x: number
+  y: number
+  w: number
+  h: number
+  cx: number
+  cy: number
+  size: number
+  strokes: Array<number>
+  lineWidth: number
+  active: boolean
+  activeColor: string
 
   getColor () {
     // jaja son los colores de http://www.colourlovers.com/palette/1442813/piet_mondrian
@@ -41,13 +45,11 @@ export class Container {
   }
 
   paint (container) {
+    const lw = this.lineWidth
     container.strokeStyle = "#000"
-    container.lineWidth   = this.lineWidth
     container.fillStyle = "#ddd"
+    container.lineWidth = lw
     container.fillRect(this.x, this.y, this.w, this.h)
-    container.strokeRect(
-      this.x, this.y,
-      this.w, this.h
-    )
+    container.strokeRect(this.x + lw/2, this.y + lw/2, this.w - lw, this.h - lw)
   }
 }

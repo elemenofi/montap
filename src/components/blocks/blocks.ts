@@ -25,12 +25,12 @@ export class BlocksComponent implements AfterViewInit {
   sizes: number[] = []
   largest: number
   container_tree: Tree
-  c_context: CanvasRenderingContext2D
+  ctx: CanvasRenderingContext2D
 
   ngAfterViewInit () {
     console.log('ngAfterViewInit: level', this.scoreService.level, 'iter', this.bsp.N_ITERATIONS )
     const canvas: any = document.getElementById('viewport')
-    this.c_context = canvas.getContext('2d')
+    this.ctx = canvas.getContext('2d')
 
     const main_container = new Container(0, 0, canvas.width, canvas.height)
     this.container_tree = this.bsp.splitContainer(main_container, this.bsp.N_ITERATIONS)
@@ -41,9 +41,9 @@ export class BlocksComponent implements AfterViewInit {
 
     this.largest = Math.max.apply(null, this.sizes)
 
-    this.c_context.fillStyle = "#fff"
-    this.c_context.fillRect(0, 0, canvas.width, canvas.height)
-    this.container_tree.paint(this.c_context)
+    this.ctx.fillStyle = "#fff"
+    this.ctx.fillRect(0, 0, canvas.width, canvas.height)
+    this.container_tree.paint(this.ctx)
   }
 
   goToNextLevel () {
@@ -65,29 +65,29 @@ export class BlocksComponent implements AfterViewInit {
   }
 
   drawActiveBlock (block) {
-    this.c_context.fillStyle = block.activeColor
-    this.c_context.fillRect(block.x, block.y, block.w, block.h)
-
-    this.c_context.lineWidth = block.lineWidth
-    this.c_context.strokeStyle = "#000"
-    this.c_context.strokeRect(block.x, block.y, block.w, block.h)
+    const lw = block.lineWidth
+    this.ctx.fillStyle = block.activeColor
+    this.ctx.strokeStyle = "#000"
+    this.ctx.lineWidth = lw
+    this.ctx.fillRect(block.x, block.y, block.w, block.h)
+    this.ctx.strokeRect(block.x + lw/2, block.y + lw/2, block.w - lw, block.h - lw)
   }
 
   wrongBlockFeedback (block) {
 
     // Cross Lines settings
-    this.c_context.lineWidth = 10
-    this.c_context.strokeStyle = "#ff0000"
+    this.ctx.lineWidth = 10
+    this.ctx.strokeStyle = "#ff0000"
 
     // Draw Cross
-    this.c_context.beginPath();
+    this.ctx.beginPath();
 
-    this.c_context.moveTo(block.cx - 10, block.cy - 10);
-    this.c_context.lineTo(block.cx + 10, block.cy + 10);
+    this.ctx.moveTo(block.cx - 10, block.cy - 10);
+    this.ctx.lineTo(block.cx + 10, block.cy + 10);
 
-    this.c_context.moveTo(block.cx + 10, block.cy - 10);
-    this.c_context.lineTo(block.cx - 10, block.cy + 10);
-    this.c_context.stroke();
+    this.ctx.moveTo(block.cx + 10, block.cy - 10);
+    this.ctx.lineTo(block.cx - 10, block.cy + 10);
+    this.ctx.stroke();
 
     // Erase Cross later  (ugh..)
     setTimeout(function(block, ctx) {
@@ -108,7 +108,7 @@ export class BlocksComponent implements AfterViewInit {
         ctx.lineTo(block.cx - 12, block.cy + 12);
         ctx.stroke();
       }
-    }(block, this.c_context), 250)
+    }(block, this.ctx), 250)
   }
 
   handleTap (event) {
