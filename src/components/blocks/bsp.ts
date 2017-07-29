@@ -23,20 +23,17 @@ export class BSP {
 
   randomSplit (container: Container) {
     let r1, r2
-    const stroke = random(1, 2)
 
     if (random(0, 1) == 0) {
       // Vertical
       r1 = new Container(
         container.x, container.y,              // r1.x, r1.y
         random(1, container.w), container.h,   // r1.w, r1.h
-        stroke
       )
 
       r2 = new Container(
         container.x + r1.w, container.y,       // r2.x, r2.y
         container.w - r1.w, container.h,       // r2.w, r2.h
-        stroke
       )
 
       if (this.DISCARD_BY_RATIO) {
@@ -51,13 +48,11 @@ export class BSP {
       r1 = new Container(
         container.x, container.y,              // r1.x, r1.y
         container.w, random(1, container.h),   // r1.w, r1.h
-        stroke
       )
 
       r2 = new Container(
         container.x, container.y + r1.h,       // r2.x, r2.y
         container.w, container.h - r1.h,       // r2.w, r2.h
-        stroke
       )
 
       if (this.DISCARD_BY_RATIO) {

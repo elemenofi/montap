@@ -2,7 +2,7 @@
 import { random } from './random'
 
 export class Container {
-  constructor (x, y, w, h, stroke) {
+  constructor (x, y, w, h) {
     this.x = x
     this.y = y
     this.w = w
@@ -10,7 +10,7 @@ export class Container {
     this.cx = x + w/2
     this.cy = y + h/2
     this.size = w * h
-    this.lineWidth = stroke * 2
+    this.lineWidth = 2
     this.activeColor = this.getColor()
     this.active = false
   }

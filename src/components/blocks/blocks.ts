@@ -9,6 +9,7 @@ import { BSP } from './bsp'
 import { ScoreService } from '../../services/score'
 import { HomePage } from '../../pages/home/home'
 import { NavController } from 'ionic-angular'
+import { ToastController } from 'ionic-angular'
 
 @Component({
   selector: 'component-blocks',
@@ -18,7 +19,8 @@ import { NavController } from 'ionic-angular'
 export class BlocksComponent implements AfterViewInit {
   constructor(
     private navCtrl: NavController,
-    private scoreService: ScoreService
+    private scoreService: ScoreService,
+    private toastCtrl: ToastController
   ) {}
 
   bsp = new BSP()
@@ -32,7 +34,7 @@ export class BlocksComponent implements AfterViewInit {
     const canvas: any = document.getElementById('viewport')
     this.ctx = canvas.getContext('2d')
 
-    const main_container = new Container(0, 0, canvas.width, canvas.height, 2)
+    const main_container = new Container(0, 0, canvas.width, canvas.height)
     this.container_tree = this.bsp.splitContainer(main_container, this.bsp.N_ITERATIONS)
 
     this.container_tree.getLeafs().forEach((element) => {
@@ -129,8 +131,18 @@ export class BlocksComponent implements AfterViewInit {
 
             // Check GAME OVER
             if (this.scoreService.lives < 0) {
-              alert('Your score was ' + this.scoreService.score / this.scoreService.time)
-              this.navCtrl.setRoot(HomePage)
+              const score = this.scoreService.score / this.scoreService.time
+
+              const toast = this.toastCtrl.create({
+                message: `Game over :(, your score was ${score}`,
+                duration: 10000,
+                position: 'middle',
+                showCloseButton: true
+              })
+
+              toast.present()
+              toast.onDidDismiss(() => this.navCtrl.setRoot(HomePage))
+
             }
           } else {
             element.active = true
