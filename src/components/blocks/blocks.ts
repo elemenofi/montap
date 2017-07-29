@@ -127,7 +127,10 @@ export class BlocksComponent implements AfterViewInit {
     this.scoreService.lives--
 
     // Check GAME OVER
-    if (this.scoreService.lives < 0) this.navCtrl.setRoot(ResultPage)
+    if (this.scoreService.lives < 0) {
+      this.scoreService.level = 1
+      this.navCtrl.setRoot(ResultPage)
+    }
   }
 
   tap (element: Container) {
