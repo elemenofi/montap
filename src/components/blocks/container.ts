@@ -29,13 +29,13 @@ export class Container {
   activeColor: string
 
   getColor () {
-    // jaja son los colores de http://www.colourlovers.com/palette/1442813/piet_mondrian
     const colors = {
       1: '#F60201',
       2: '#1F7FC9',
       3: '#FDED01'
     }
-    const color = random(1, 10)
+
+    const color = random(1, 8)
 
     if (color < 4) {
       return colors[color]

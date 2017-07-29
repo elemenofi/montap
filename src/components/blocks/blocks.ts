@@ -57,11 +57,7 @@ export class BlocksComponent implements AfterViewInit {
 
     // Change view
     // app
-    setTimeout(function(that) {
-      return function () {
-        that.ngAfterViewInit()
-      }
-    }(this), 500)
+    setTimeout(() => this.ngAfterViewInit(), 500)
   }
 
   drawActiveBlock (block) {
@@ -80,18 +76,17 @@ export class BlocksComponent implements AfterViewInit {
     this.ctx.strokeStyle = "#ff0000"
 
     // Draw Cross
-    this.ctx.beginPath();
+    this.ctx.beginPath()
 
-    this.ctx.moveTo(block.cx - 10, block.cy - 10);
-    this.ctx.lineTo(block.cx + 10, block.cy + 10);
+    this.ctx.moveTo(block.cx - 10, block.cy - 10)
+    this.ctx.lineTo(block.cx + 10, block.cy + 10)
 
-    this.ctx.moveTo(block.cx + 10, block.cy - 10);
-    this.ctx.lineTo(block.cx - 10, block.cy + 10);
-    this.ctx.stroke();
+    this.ctx.moveTo(block.cx + 10, block.cy - 10)
+    this.ctx.lineTo(block.cx - 10, block.cy + 10)
+    this.ctx.stroke()
 
     // Erase Cross later  (ugh..)
-    setTimeout(function(block, ctx) {
-      return function() {
+    setTimeout((block, ctx) => {
         // Everything a bit bigger because of some weird aliasing..
         ctx.lineWidth = 12
         if (block.active) {
@@ -99,16 +94,15 @@ export class BlocksComponent implements AfterViewInit {
         } else {
           ctx.strokeStyle = "#ddd"
         }
-        ctx.beginPath();
+        ctx.beginPath()
 
-        ctx.moveTo(block.cx - 12, block.cy - 12);
-        ctx.lineTo(block.cx + 12, block.cy + 12);
+        ctx.moveTo(block.cx - 12, block.cy - 12)
+        ctx.lineTo(block.cx + 12, block.cy + 12)
 
-        ctx.moveTo(block.cx + 12, block.cy - 12);
-        ctx.lineTo(block.cx - 12, block.cy + 12);
-        ctx.stroke();
-      }
-    }(block, this.ctx), 250)
+        ctx.moveTo(block.cx + 12, block.cy - 12)
+        ctx.lineTo(block.cx - 12, block.cy + 12)
+        ctx.stroke()
+    }, 250)
   }
 
   handleTap (event) {
