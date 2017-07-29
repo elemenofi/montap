@@ -29,11 +29,35 @@
     background-color: #1F7FC9;
     font-size: 20px;
     color: #fff;
-    border-top: 6px solid #000;
-    border-bottom: 6px solid #000;
+    border-top: 8px solid #000;
+    border-bottom: 8px solid #000;
     -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     border-radius: 0;
+
+    .btn-padding-left {
+      display: inline-block;
+      position: absolute;
+      left: 0;
+      width:30px;
+      border-right: 6px solid #000;
+      min-height: 80px;
+      background-color: #fff;
+    }
+
+    .btn-padding-right {
+      display: inline-block;
+      position: absolute;
+      right: 0;
+      width:20px;
+      border-left: 4px solid #000;
+      min-height: 80px;
+      background-color: #fff;
+    }
+
+    .btn-text {
+
+    }
   }
 
 }
