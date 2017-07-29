@@ -1,2 +1,5 @@
-<div>Score: {{scoreService.score}}</div>
-<div>Lives: {{scoreService.lives}}</div>
+<div id="scores">
+  <div class="score-item">Level: {{scoreService.level}}</div>
+  <div class="score-item">Lives: <span class="{{scoreService.lives <= 3 ? 'low-life' : ''}}">{{scoreService.lives}}</span></div>
+  <div class="score-item">Score: {{scoreService.score}}</div>
+</div>

@@ -22,7 +22,7 @@ export class Container {
 
   active = false
   activeColor = this.getColor()
-  lineWidth = random(2,4)
+  lineWidth = random(2,5)
 
   getColor () {
     // jaja son los colores de http://www.colourlovers.com/palette/1442813/piet_mondrian

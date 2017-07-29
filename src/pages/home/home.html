@@ -1,20 +1,23 @@
-<ion-header>
+<!-- <ion-header>
   <ion-navbar>
     <ion-title>
       Montap
     </ion-title>
   </ion-navbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content padding>
-  <ul>
-    <li>Click the rectangles as fast as you can.</li>
-    <li>From the biggest to the smallest.</li>
-  </ul>
+  <div id="home">
+    <component-montap></component-montap>
 
-  <button
-    ion-button block
-    (click)="start()">
-    Start
-  </button>
+    <p>How to Play: </p>
+    <p>Click the rectangles, from biggest to smallest, as fast as you can.</p>
+
+
+    <button
+      ion-button block
+      (click)="start()">
+      Start
+    </button>
+  </div>
 </ion-content>

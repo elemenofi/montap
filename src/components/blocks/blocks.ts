@@ -138,6 +138,8 @@ export class BlocksComponent implements AfterViewInit {
             if (this.scoreService.lives < 0) {
               alert('Your score was ' + this.scoreService.score / this.scoreService.time)
               this.navCtrl.setRoot(HomePage)
+
+              // ISSUE: After dying, timer does not die and two timers are now active
             }
           } else {
             // Set container to active and paint with Mondrian color

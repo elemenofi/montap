@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar'
 import { MyApp } from './app.component'
 import { HomePage } from '../pages/home/home'
 import { GamePage } from '../pages/game/game'
+import { MontapComponent } from './../components/montap/montap'
 import { TimerComponent } from './../components/timer/timer'
 import { ScoreComponent } from './../components/score/score'
 import { BlocksComponent } from './../components/blocks/blocks'
@@ -17,6 +18,7 @@ import { ScoreService } from './../services/score'
     MyApp,
     HomePage,
     GamePage,
+    MontapComponent,
     TimerComponent,
     ScoreComponent,
     BlocksComponent,
@@ -30,6 +32,7 @@ import { ScoreService } from './../services/score'
     MyApp,
     HomePage,
     GamePage,
+    MontapComponent,
     TimerComponent,
     ScoreComponent,
     BlocksComponent,

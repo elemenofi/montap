@@ -1,6 +1,26 @@
+.header-md::after {
+    background-image: none;
+}
 .navbar {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   text-align: center;
+
+  & .hud {
+    width: 310px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  &.toolbar,
+  &.toolbar-md {
+    height: 30px;
+    min-height: 30px;
+    color: #000;
+  }
+
+  & .toolbar-background-md {
+    background-color: #fff;
+  }
 }

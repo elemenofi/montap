@@ -1,0 +1,14 @@
+#scores {
+  display: inline-block;
+  font-size: 1.2rem;
+
+  & .score-item {
+    display: inline-block;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    .low-life {
+      color: #ff0000;
+    }
+  }
+}

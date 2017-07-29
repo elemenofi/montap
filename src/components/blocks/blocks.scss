@@ -1,1 +1,8 @@
-
+#canvas-container {
+  margin: 0 auto;
+  margin-top: 5px;
+  width: 310px;
+  & canvas {
+    border: 4px solid #000;
+  }
+}
