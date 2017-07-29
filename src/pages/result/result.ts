@@ -16,9 +16,17 @@ export class ResultPage implements OnInit {
   }
 
   score: number
+  previousScore: string
 
   ngOnInit () {
     this.score = 100 - Math.round(this.scoreService.score / this.scoreService.time * 10) + this.scoreService.level
+
+    this.previousScore = localStorage.getItem('score')
+
+    if (!this.previousScore || (this.previousScore && this.score > parseInt(this.previousScore))) {
+      localStorage.setItem('score', this.score.toString())
+      this.previousScore = localStorage.getItem('score')
+    }
   }
 
   dismiss() {

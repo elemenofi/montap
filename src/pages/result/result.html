@@ -3,14 +3,17 @@
   <div id="home">
     <component-montap></component-montap>
 
-    <div>Game over :(, your score was {{score}}</div>
+    <div>Game Over :(</div>
+    <div>Your score is {{score}}</div>
 
     <button
       ion-button block
       (click)="dismiss()">
       <span class="btn-padding-left"></span>
-      <span class="btn-text">OK</span>
+      <span class="btn-text">Start again</span>
       <span class="btn-padding-right"></span>
     </button>
+
+    <div class="highest" *ngIf="previousScore">Your highest score is {{previousScore}}</div>
   </div>
 </ion-content>
