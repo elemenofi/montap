@@ -46,7 +46,7 @@ export class Container {
   paint (container) {
     const lw = this.lineWidth
     container.strokeStyle = "#000"
-    container.fillStyle = "#ddd"
+    container.fillStyle = "#A9A9A9"
     container.lineWidth = lw
     container.fillRect(this.x, this.y, this.w, this.h)
     container.strokeRect(this.x + lw/2, this.y + lw/2, this.w - lw, this.h - lw)

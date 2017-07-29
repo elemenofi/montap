@@ -9,7 +9,6 @@ import { BSP } from './bsp'
 import { ScoreService } from '../../services/score'
 import { HomePage } from '../../pages/home/home'
 import { NavController } from 'ionic-angular'
-import { ModalController } from 'ionic-angular'
 import { Vibration } from '@ionic-native/vibration'
 import { ResultPage } from '../../pages/result/result'
 
@@ -22,7 +21,6 @@ export class BlocksComponent implements AfterViewInit {
   constructor(
     private navCtrl: NavController,
     private scoreService: ScoreService,
-    private modalCtrl: ModalController,
     private vibration: Vibration
   ) {}
 
@@ -103,7 +101,7 @@ export class BlocksComponent implements AfterViewInit {
     if (block.active) {
       this.ctx.strokeStyle = block.activeColor
     } else {
-      this.ctx.strokeStyle = "#ddd"
+      this.ctx.strokeStyle = "#A9A9A9"
     }
 
     this.ctx.beginPath()
