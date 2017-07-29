@@ -47,7 +47,6 @@ export class BlocksComponent implements AfterViewInit {
   }
 
   goToNextLevel () {
-
     this.scoreService.level++
 
     // Level progress & iteration difficulty
@@ -57,6 +56,7 @@ export class BlocksComponent implements AfterViewInit {
     if (this.scoreService.level > 50) { this.bsp.N_ITERATIONS = 5 }
 
     // Change view
+    // app
     setTimeout(function(that) {
       return function () {
         that.ngAfterViewInit()
