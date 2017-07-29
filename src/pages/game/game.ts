@@ -10,7 +10,6 @@ import { GameService } from '../../services/game'
 export class GamePage implements OnInit {
   constructor(
     public navCtrl: NavController,
-    private gameService: GameService
   ) {}
 
   ngOnInit () {}

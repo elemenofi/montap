@@ -12,6 +12,7 @@ import { ScoreComponent } from './../components/score/score'
 import { BlocksComponent } from './../components/blocks/blocks'
 import { GameService } from './../services/game'
 import { ScoreService } from './../services/score'
+import { Vibration } from '@ionic-native/vibration'
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { ScoreService } from './../services/score'
     SplashScreen,
     GameService,
     ScoreService,
+    Vibration,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -10,6 +10,7 @@ import { ScoreService } from '../../services/score'
 import { HomePage } from '../../pages/home/home'
 import { NavController } from 'ionic-angular'
 import { ToastController } from 'ionic-angular'
+import { Vibration } from '@ionic-native/vibration'
 
 @Component({
   selector: 'component-blocks',
@@ -20,7 +21,8 @@ export class BlocksComponent implements AfterViewInit {
   constructor(
     private navCtrl: NavController,
     private scoreService: ScoreService,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private vibration: Vibration
   ) {}
 
   bsp = new BSP()
@@ -70,6 +72,7 @@ export class BlocksComponent implements AfterViewInit {
   }
 
   wrongBlockFeedback (block) {
+    this.vibration.vibrate(10)
     this.ctx.lineWidth = 10
     this.ctx.strokeStyle = "#ff0000"
 
