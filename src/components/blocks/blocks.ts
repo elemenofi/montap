@@ -27,7 +27,7 @@ export class BlocksComponent implements AfterViewInit {
   bsp = new BSP()
   sizes: number[] = []
   largest: number
-  container_tree: Tree
+  containerTree: Tree
   ctx: CanvasRenderingContext2D
 
   ngAfterViewInit () {
@@ -35,11 +35,11 @@ export class BlocksComponent implements AfterViewInit {
     const canvas: any = document.getElementById('viewport')
     this.ctx = canvas.getContext('2d')
 
-    const main_container = new Container(0, 0, canvas.width, canvas.height)
-    this.container_tree = this.bsp.splitContainer(main_container, this.bsp.N_ITERATIONS)
+    const mainContainer = new Container(0, 0, canvas.width, canvas.height)
+    this.containerTree = this.bsp.splitContainer(mainContainer, this.bsp.N_ITERATIONS)
 
     this
-      .container_tree
+      .containerTree
       .getLeafs()
       .forEach((element) => {
         this.sizes.push(element.size)
@@ -49,7 +49,7 @@ export class BlocksComponent implements AfterViewInit {
 
     this.ctx.fillStyle = "#fff"
     this.ctx.fillRect(0, 0, canvas.width, canvas.height)
-    this.container_tree.paint(this.ctx)
+    this.containerTree.paint(this.ctx)
 
     if (window['cordova']) window['nativeclick'].watch(['game'])
   }
@@ -75,19 +75,21 @@ export class BlocksComponent implements AfterViewInit {
     this.ctx.strokeRect(block.x + lw/2, block.y + lw/2, block.w - lw, block.h - lw)
   }
 
-  wrongBlockFeedback (block) {
+  wrongBlockFeedback (block: Container) {
     this.vibration.vibrate(10)
 
-    this.ctx.lineWidth = 10
+    const size = Math.round((block.w * block.h)/10000) * 2
+
+    this.ctx.lineWidth = size
     this.ctx.strokeStyle = "#ff0000"
 
     this.ctx.beginPath()
 
-    this.ctx.moveTo(block.cx - 10, block.cy - 10)
-    this.ctx.lineTo(block.cx + 10, block.cy + 10)
+    this.ctx.moveTo(block.cx - size, block.cy - size)
+    this.ctx.lineTo(block.cx + size, block.cy + size)
 
-    this.ctx.moveTo(block.cx + 10, block.cy - 10)
-    this.ctx.lineTo(block.cx - 10, block.cy + 10)
+    this.ctx.moveTo(block.cx + size, block.cy - size)
+    this.ctx.lineTo(block.cx - size, block.cy + size)
     this.ctx.stroke()
 
     setTimeout(() => {
@@ -95,8 +97,10 @@ export class BlocksComponent implements AfterViewInit {
     }, 250)
   }
 
-  removeCross (block) {
-    this.ctx.lineWidth = 12
+  removeCross (block: Container) {
+    const size = Math.round((block.w * block.h)/10000) * 2 + 2
+
+    this.ctx.lineWidth = size
 
     if (block.active) {
       this.ctx.strokeStyle = block.activeColor
@@ -106,11 +110,11 @@ export class BlocksComponent implements AfterViewInit {
 
     this.ctx.beginPath()
 
-    this.ctx.moveTo(block.cx - 12, block.cy - 12)
-    this.ctx.lineTo(block.cx + 12, block.cy + 12)
+    this.ctx.moveTo(block.cx - size, block.cy - size)
+    this.ctx.lineTo(block.cx + size, block.cy + size)
 
-    this.ctx.moveTo(block.cx + 12, block.cy - 12)
-    this.ctx.lineTo(block.cx - 12, block.cy + 12)
+    this.ctx.moveTo(block.cx + size, block.cy - size)
+    this.ctx.lineTo(block.cx - size, block.cy + size)
 
     this.ctx.stroke()
   }
@@ -159,7 +163,7 @@ export class BlocksComponent implements AfterViewInit {
     const y = event.layerY
 
     this
-      .container_tree
+      .containerTree
       .getLeafs()
       .forEach((element) => {
         if (
