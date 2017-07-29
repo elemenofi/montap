@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { NavController } from 'ionic-angular'
-import { HomePage } from '../home/home'
+import { GamePage } from '../game/game'
 import { ScoreService } from '../../services/score'
 
 @Component({
@@ -18,10 +18,11 @@ export class ResultPage implements OnInit {
   score: number
 
   ngOnInit () {
-    this.score = this.scoreService.score / this.scoreService.time
+    this.score = 100 - Math.round(this.scoreService.score / this.scoreService.time * 10) + this.scoreService.level
   }
 
   dismiss() {
-    this.navCtrl.setRoot(HomePage)
+    this.scoreService.init()
+    this.navCtrl.setRoot(GamePage)
   }
 }

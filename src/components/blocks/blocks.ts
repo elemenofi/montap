@@ -63,7 +63,10 @@ export class BlocksComponent implements AfterViewInit {
     if (this.scoreService.level > 30) { this.bsp.N_ITERATIONS = 4 }
     if (this.scoreService.level > 50) { this.bsp.N_ITERATIONS = 5 }
 
-    setTimeout(() => this.ngAfterViewInit(), 500)
+    setTimeout(
+      () => this.ngAfterViewInit(),
+      500 + ((this.bsp.N_ITERATIONS - 1) * 250)
+    )
   }
 
   drawActiveBlock (block) {
@@ -128,7 +131,6 @@ export class BlocksComponent implements AfterViewInit {
 
     // Check GAME OVER
     if (this.scoreService.lives < 0) {
-      this.scoreService.level = 1
       this.navCtrl.setRoot(ResultPage)
     }
   }
