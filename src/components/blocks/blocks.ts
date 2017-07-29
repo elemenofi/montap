@@ -155,7 +155,13 @@ export class BlocksComponent implements AfterViewInit {
             if (this.sizes.length === 0) {
 
               // Update lives
-              this.scoreService.lives++
+              if (this.scoreService.level <= 15) {
+                this.scoreService.lives++
+              } else if (this.scoreService.level <= 50) {
+                this.scoreService.lives += 2
+              } else if (this.scoreService.level > 50) {
+                this.scoreService.lives += 3
+              }
 
               // Go to Next Level
               this.goToNextLevel()
