@@ -9,8 +9,9 @@ import { BSP } from './bsp'
 import { ScoreService } from '../../services/score'
 import { HomePage } from '../../pages/home/home'
 import { NavController } from 'ionic-angular'
-import { ToastController } from 'ionic-angular'
+import { ModalController } from 'ionic-angular'
 import { Vibration } from '@ionic-native/vibration'
+import { ResultPage } from '../../pages/result/result'
 
 @Component({
   selector: 'component-blocks',
@@ -21,7 +22,7 @@ export class BlocksComponent implements AfterViewInit {
   constructor(
     private navCtrl: NavController,
     private scoreService: ScoreService,
-    private toastCtrl: ToastController,
+    private modalCtrl: ModalController,
     private vibration: Vibration
   ) {}
 
@@ -39,15 +40,20 @@ export class BlocksComponent implements AfterViewInit {
     const main_container = new Container(0, 0, canvas.width, canvas.height)
     this.container_tree = this.bsp.splitContainer(main_container, this.bsp.N_ITERATIONS)
 
-    this.container_tree.getLeafs().forEach((element) => {
-      this.sizes.push(element.size)
-    })
+    this
+      .container_tree
+      .getLeafs()
+      .forEach((element) => {
+        this.sizes.push(element.size)
+      })
 
     this.largest = Math.max.apply(null, this.sizes)
 
     this.ctx.fillStyle = "#fff"
     this.ctx.fillRect(0, 0, canvas.width, canvas.height)
     this.container_tree.paint(this.ctx)
+
+    if (window['cordova']) window['nativeclick'].watch(['game'])
   }
 
   goToNextLevel () {
@@ -73,6 +79,7 @@ export class BlocksComponent implements AfterViewInit {
 
   wrongBlockFeedback (block) {
     this.vibration.vibrate(10)
+
     this.ctx.lineWidth = 10
     this.ctx.strokeStyle = "#ff0000"
 
@@ -110,71 +117,67 @@ export class BlocksComponent implements AfterViewInit {
     this.ctx.stroke()
   }
 
+  missTap (element: Container) {
+    // Display visual feedback
+    this.wrongBlockFeedback(element)
+
+    // Reduce life
+    this.scoreService.lives--
+
+    // Check GAME OVER
+    if (this.scoreService.lives < 0) this.navCtrl.setRoot(ResultPage)
+  }
+
+  tap (element: Container) {
+    if (window['cordova']) window['nativeclick'].trigger()
+    element.active = true
+    this.drawActiveBlock(element)
+
+    // Reset largest block
+    this.sizes.splice(this.sizes.indexOf(this.largest), 1)
+    this.largest = Math.max.apply(null, this.sizes)
+
+    // Update Score
+    this.scoreService.score++
+
+    // Check Level finished
+    if (this.sizes.length === 0) {
+      // Update lives
+      if (this.scoreService.level <= 15) {
+        this.scoreService.lives++
+      } else if (this.scoreService.level <= 50) {
+        this.scoreService.lives += 2
+      } else if (this.scoreService.level > 50) {
+        this.scoreService.lives += 3
+      }
+
+      // Go to Next Level
+      this.goToNextLevel()
+    }
+  }
+
   handleTap (event) {
     const x = event.layerX
     const y = event.layerY
 
     this
-    .container_tree
-    .getLeafs()
-    .forEach((element) => {
-      if (
-        y > element.y &&
-        y < element.y + element.h &&
-        x > element.x &&
-        x < element.x + element.w
-      ) {
-        if (!element.active) {
-          if (element.size < this.largest) {
-            // Display visual feedback
-            this.wrongBlockFeedback(element)
-
-            // Reduce life
-            this.scoreService.lives--
-
-            // Check GAME OVER
-            if (this.scoreService.lives < 0) {
-              const score = this.scoreService.score / this.scoreService.time
-
-              const toast = this.toastCtrl.create({
-                message: `Game over :(, your score was ${score}`,
-                duration: 10000,
-                position: 'middle',
-                showCloseButton: true
-              })
-
-              toast.present()
-              toast.onDidDismiss(() => this.navCtrl.setRoot(HomePage))
-
-            }
-          } else {
-            element.active = true
-            this.drawActiveBlock(element)
-
-            // Reset largest block
-            this.sizes.splice(this.sizes.indexOf(this.largest), 1)
-            this.largest = Math.max.apply(null, this.sizes)
-
-            // Update Score
-            this.scoreService.score++
-
-            // Check Level finished
-            if (this.sizes.length === 0) {
-              // Update lives
-              if (this.scoreService.level <= 15) {
-                this.scoreService.lives++
-              } else if (this.scoreService.level <= 50) {
-                this.scoreService.lives += 2
-              } else if (this.scoreService.level > 50) {
-                this.scoreService.lives += 3
-              }
-
-              // Go to Next Level
-              this.goToNextLevel()
+      .container_tree
+      .getLeafs()
+      .forEach((element) => {
+        if (
+          y > element.y &&
+          y < element.y + element.h &&
+          x > element.x &&
+          x < element.x + element.w
+        ) {
+          if (!element.active) {
+            if (element.size < this.largest) {
+              this.missTap(element)
+            } else {
+              this.tap(element)
             }
           }
         }
-      }
-    })
+      })
   }
 }

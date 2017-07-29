@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar'
 import { MyApp } from './app.component'
 import { HomePage } from '../pages/home/home'
 import { GamePage } from '../pages/game/game'
+import { ResultPage } from './../pages/result/result'
 import { MontapComponent } from './../components/montap/montap'
 import { TimerComponent } from './../components/timer/timer'
 import { ScoreComponent } from './../components/score/score'
@@ -19,6 +20,7 @@ import { Vibration } from '@ionic-native/vibration'
     MyApp,
     HomePage,
     GamePage,
+    ResultPage,
     MontapComponent,
     TimerComponent,
     ScoreComponent,
@@ -33,6 +35,7 @@ import { Vibration } from '@ionic-native/vibration'
     MyApp,
     HomePage,
     GamePage,
+    ResultPage,
     MontapComponent,
     TimerComponent,
     ScoreComponent,

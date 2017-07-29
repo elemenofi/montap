@@ -5,6 +5,7 @@
   margin: 0 auto;
   border: 10px solid #000;
   margin-top: 10px;
+  animation: fadein 2s;
 
   & .montap {
     padding: 40px;
@@ -62,6 +63,10 @@
 
 }
 
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
 // 1: '#F60201',
 // 2: '#1F7FC9',
 // 3: '#FDED01'
